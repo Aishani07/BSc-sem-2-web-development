@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Click to Print List Items</title>
+</head>
+<body>
+
+<button id="btn">Click me</button>
+
+<ul id="output"></ul>
+
+<script>
+  const items = ["Apple", "Banana", "Orange", "Mango"];
+  let index = 0;
+  const btn = document.getElementById("btn");
+
+  function printItem() {
+    if (index < items.length) {
+      const li = document.createElement("li");
+      li.innerText = items[index];
+      document.getElementById("output").appendChild(li);
+      index++;
+    }
+
+    // Remove event listener after last item
+    if (index === items.length) {
+      btn.removeEventListener("click", printItem);    
+    }
+  }
+
+  btn.addEventListener("click", printItem);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Side by Side Lists</title>
+    <style>
+        .container {
+            display: flex;
+            gap: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <ul id="list1"></ul>
+    <ul id="list2"></ul>
+</div>
+
+<button>Add List Item</button>
+
+<script>
+    let list1 = document.getElementById('list1');
+    let list2 = document.getElementById('list2');
+    let btn = document.querySelector('button');
+    let count = 1;
+
+    btn.addEventListener('click', () => {
+        let li1 = document.createElement('li');
+        li1.innerText = "List 1 Item " + count;
+
+        let li2 = document.createElement('li');
+        li2.innerText = "List 2 Item " + count;
+
+        list1.appendChild(li1);
+        list2.appendChild(li2);
+        count++;
+    });
+</script>
+
+</body>
+</html>
