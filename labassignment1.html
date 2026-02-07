@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Event Dashboard</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    color:white;
+    margin-bottom:20px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+label{
+    display:block;
+    margin-top:10px;
+    font-weight:bold;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:8px;
+    margin-top:4px;
+}
+
+button{
+    margin-top:12px;
+    padding:10px;
+    background:#667eea;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#5a67d8;
+}
+
+.events{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:12px;
+}
+
+.event-card{
+    background:#f7f7ff;
+    padding:12px;
+    border-radius:10px;
+    width:220px;
+    position:relative;
+}
+
+.event-card h4{
+    margin:0 0 5px;
+}
+
+.delete-btn{
+    position:absolute;
+    top:6px;
+    right:8px;
+    background:#ff4d4d;
+    color:white;
+    border:none;
+    border-radius:50%;
+    width:22px;
+    height:22px;
+    cursor:pointer;
+    font-size:14px;
+    line-height:22px;
+    padding:0;
+}
+
+.dom-demo{
+    text-align:center;
+    font-size:40px;
+    font-weight:bold;
+    color:#667eea;
+    margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>SMART EVENT DASHBOARD</h1>
+
+<div class="container">
+
+    <!-- Add Event -->
+    <div class="card">
+        <h3>Add New Event</h3>
+        <form id="eventForm">
+            <label>Event Title</label>
+            <input type="text" id="eventTitle" required>
+
+            <label>Event Date</label>
+            <input type="date" id="eventDate" required>
+
+            <label>Category</label>
+            <select id="eventCategory">
+                <option>Conference</option>
+                <option>Workshop</option>
+                <option>Meetup</option>
+                <option>Social</option>
+                <option>Webinar</option>
+            </select>
+
+            <label>Description</label>
+            <textarea id="eventDescription"></textarea>
+
+            <button type="submit">Add Event</button>
+        </form>
+    </div>
+
+    <!-- Events -->
+    <div class="card">
+        <h3>My Events</h3>
+        <button id="sampleBtn">Add Sample Events</button>
+        <button id="clearBtn">Clear All</button>
+
+        <div id="events" class="events">
+            <p id="noEvents">No events yet</p>
+        </div>
+    </div>
+</div>
+
+<!-- DOM Demo -->
+<div class="card" style="margin-top:20px">
+    <h3>DOM Manipulation Demo</h3>
+    <p>Last key pressed:</p>
+    <div id="domDemo" class="dom-demo">_</div>
+</div>
+
+<script>
+const form = document.getElementById("eventForm");
+const events = document.getElementById("events");
+const sampleBtn = document.getElementById("sampleBtn");
+const clearBtn = document.getElementById("clearBtn");
+const domDemo = document.getElementById("domDemo");
+
+function addEvent(title,date,category,desc){
+    const msg = document.getElementById("noEvents");
+    if(msg) msg.remove();
+
+    const card = document.createElement("div");
+    card.className = "event-card";
+    card.innerHTML = `
+        <button class="delete-btn">×</button>
+        <h4>${title}</h4>
+        <p>${date} | ${category}</p>
+        <p>${desc}</p>
+    `;
+
+    card.querySelector(".delete-btn").addEventListener("click", ()=>{
+        card.remove();
+        if(events.children.length === 0){
+            events.innerHTML = '<p id="noEvents">No events yet</p>';
+        }
+    });
+
+    events.appendChild(card);
+}
+
+form.addEventListener("submit", e=>{
+    e.preventDefault();
+    addEvent(
+        eventTitle.value,
+        eventDate.value,
+        eventCategory.value,
+        eventDescription.value
+    );
+    form.reset();
+});
+
+sampleBtn.addEventListener("click", ()=>{
+    addEvent("Java Workshop","2026-03-10","Workshop","Core Java Training");
+    addEvent("AI ML Conference","2026-03-15","Conference","Future of AI & ML");
+});
+
+clearBtn.addEventListener("click", ()=>{
+    events.innerHTML = '<p id="noEvents">No events yet</p>';
+});
+
+
+document.addEventListener("keydown", e=>{
+    if(e.key.length === 1){
+        domDemo.textContent = e.key;
+    }
+});
+</script>
+
+</body>
+</html>
